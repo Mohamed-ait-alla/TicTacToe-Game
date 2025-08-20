@@ -3,12 +3,16 @@ import { useState } from "react";
 import Cell from "./components/cell";
 
 export default function Home() {
-  const [cell, setCells] = useState(["", "", "", "", "", "", "", "", ""])
+  const [cells, setCells] = useState(["", "", "", "", "", "", "", "", ""]);
+  const [go, setGo] = useState("circle");
+
+  console.log(cells);
+
   return (
     <div className='container'>
       <div className="gameboard">
-        {cell.map((cell, index) => (
-          <Cell key={index} />
+        {cells.map((cell, index) => (
+          <Cell id={index}  go={go} setGo={setGo} cells={cells} setCells={setCells} cell={cell} key={index}/>
         ))}
       </div>
     </div>

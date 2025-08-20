@@ -14,8 +14,24 @@
 }
 
 .square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100px;
   height: 100px;
   border: 2px solid black;
   box-sizing: border-box;
+}
+
+.cross, .circle {
+  font-size: 70px;
+  font-weight: bold;
+}
+
+.cross {
+  color: red;
+}
+
+.circle {
+  color: blue;
 }
