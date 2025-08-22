@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #f4f4f4;
   height: 100vh;
 }
 
@@ -38,6 +39,66 @@
   color: blue;
 }
 
+.boardinfo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+}
+
 span {
   color: #19c8fa;
+}
+
+.popup {
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  animation: popupScale 0.4s ease forwards;
+}
+
+.popup h2 {
+  margin: 0 0 10px;
+  font-size: 1.8rem;
+}
+
+.cross-text {
+  color: #e63946;
+}
+
+.circle-text {
+  color: #1d4ed8;
+}
+
+.draw-text {
+  color: #6b7280;
+}
+
+.popup button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.play-again-btn:hover {
+  background: #2563eb;
+}
+
+@keyframes popupScale {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

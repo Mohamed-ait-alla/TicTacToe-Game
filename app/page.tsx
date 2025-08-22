@@ -1,4 +1,5 @@
 "use client"
+
 import { useEffect, useState } from "react";
 import Cell from "./components/cell";
 
@@ -17,53 +18,79 @@ const winningCases = [
 export default function Home() {
   const [cells, setCells] = useState(["", "", "", "", "", "", "", "", ""]);
   const [go, setGo] = useState("circle");
-  const [winningMsg, setWinningMsg] = useState("");
+  const [isWin, setIsWin] = useState("");
 
   // Hook used for tracking player winning
-  useEffect( () => {
+  useEffect(() => {
     winningCases.forEach((winCase) => {
       const crossWinsCase = winCase.every((cell) => cells[cell] == "cross");
       const circleWinsCase = winCase.every((cell) => cells[cell] == "circle");
-      const drawCase = (cells.every((cell) => cell !== "") && !winningMsg);
+      const drawCase = (cells.every((cell) => cell !== "") && !isWin);
 
       if (crossWinsCase)
-        setWinningMsg("cross wins");
+        setIsWin("cross");
       else if (circleWinsCase)
-        setWinningMsg("circle wins");
+        setIsWin("circle");
       else if (drawCase)
-          setWinningMsg("Draw!");
+        setIsWin("draw");
     });
   }, cells);
 
+
+  // pick a css class depending on winning case occured
+  const resultClass = () => {
+    if (isWin === "cross")
+      return ("cross-text");
+    if (isWin === "circle")
+      return ("circle-text");
+    if (isWin === "draw")
+      return ("draw-text");
+    return (undefined);
+  }
+
+  // if Play again button pressed reset things
+  const handlePlayAgain = () => {
+    setCells(["", "", "", "", "", "", "", "", ""]);
+    setGo("circle");
+    setIsWin("");
+  }
+
   return (
     <div className='container'>
-      <div className="gameboard">
-        {
-        cells.map((cell, index) => (
-          // Rendering Cell component
-          <Cell 
-                id={index}
-                go={go}
-                setGo={setGo}
-                cells={cells}
-                setCells={setCells}
-                cell={cell}
-                isWin={winningMsg}
-                key={index}
-          />
-        ))
-        }
-      </div>
-      <div>
-        {winningMsg}
-      </div>
       {
-      /* Print winning message if a player wins, instead Print player's turn */
-      !winningMsg && <div className="boardinfo">
-                        <span>{go}</span>
-                        &nbsp;
-                        turn
-                     </div>
+        isWin ? 
+        (
+            <div className="popup">
+              <h2 className={resultClass()}>
+                {isWin === "cross" && "❌ Cross Wins!"}
+                {isWin === "circle" && "⭕️ Circle Wins!"}
+                {isWin === "draw" && "🤝 It's a Draw!"}
+              </h2>
+              <button className="play-again-btn" onClick={handlePlayAgain}>Play Again</button>
+            </div>
+        )
+        :
+        (
+            <>
+              <div className="gameboard">
+                {cells.map((cell, index) => (
+                  // Rendering Cell component
+                  <Cell
+                    id={index}
+                    go={go}
+                    setGo={setGo}
+                    cells={cells}
+                    setCells={setCells}
+                    cell={cell}
+                    isWin={isWin}
+                    key={index} />
+                ))}
+              </div>
+              <div className="boardinfo">
+                <span>{go}</span> turn
+              </div>
+            </>
+        )
       }
     </div>
   );
