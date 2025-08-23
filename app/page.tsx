@@ -19,6 +19,7 @@ export default function Home() {
   const [cells, setCells] = useState(["", "", "", "", "", "", "", "", ""]);
   const [go, setGo] = useState("circle");
   const [isWin, setIsWin] = useState("");
+  const [winCases, setWinCases] = useState<number[]>([]);
 
   // Hook used for tracking player winning
   useEffect(() => {
@@ -28,11 +29,20 @@ export default function Home() {
       const drawCase = (cells.every((cell) => cell !== "") && !isWin);
 
       if (crossWinsCase)
-        setIsWin("cross");
+      {
+        setWinCases(winCase);
+        setTimeout(() => setIsWin("cross"), 1200);
+      }
       else if (circleWinsCase)
-        setIsWin("circle");
+      {
+        setWinCases(winCase);
+        setTimeout(() => setIsWin("circle"), 1200);
+      }
       else if (drawCase)
+      {
         setIsWin("draw");
+        setWinCases([]);
+      }
     });
   }, cells);
 
@@ -53,6 +63,7 @@ export default function Home() {
     setCells(["", "", "", "", "", "", "", "", ""]);
     setGo("circle");
     setIsWin("");
+    setWinCases([]);
   }
 
   return (
@@ -83,11 +94,12 @@ export default function Home() {
                     setCells={setCells}
                     cell={cell}
                     isWin={isWin}
+                    ishighlighted={winCases.includes(index)}
                     key={index} />
                 ))}
               </div>
               <div className="boardinfo">
-                <span>{go}</span> turn
+                <span>{(go === "cross" ? "❌" : "⭕️")}</span> turn
               </div>
             </>
         )

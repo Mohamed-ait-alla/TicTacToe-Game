@@ -22,8 +22,22 @@
   align-items: center;
   width: 100px;
   height: 100px;
-  border: 2px solid black;
+  border: 2px solid #333;
   box-sizing: border-box;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.circle {
+  color: #1d4ed8;
+}
+
+.cross {
+  color: #e63946;
+}
+
+.cross.highlight, .circle.highlight {
+  animation: popUp 0.4s ease-in-out infinite alternate;
+  font-size: 85px;
 }
 
 .cross, .circle {
@@ -100,5 +114,14 @@ span {
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@keyframes popUp {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.3);
   }
 }

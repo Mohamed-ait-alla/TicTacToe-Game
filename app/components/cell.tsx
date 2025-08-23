@@ -10,9 +10,10 @@ type CellProps = {
     setCells: Dispatch<SetStateAction<string[]>>;
     cell: string;
     isWin: string;
+    ishighlighted: boolean;
 }
 
-const Cell = ({id, go, setGo, cells, setCells, cell, isWin}: CellProps) => {
+const Cell = ({id, go, setGo, cells, setCells, cell, isWin, ishighlighted}: CellProps) => {
 
     const handleClick = () =>
     {
@@ -46,7 +47,7 @@ const Cell = ({id, go, setGo, cells, setCells, cell, isWin}: CellProps) => {
     }
     return (
             <div className="square" onClick={handleClick}>
-                <div className={cell}>{cell ? (cell === "circle" ? "O": "X") : ""}</div>
+                <div className={`${cell} ${(ishighlighted ? "highlight": "")}`}>{cell ? (cell === "circle" ? "O": "X") : ""}</div>
             </div>
     );
 }
