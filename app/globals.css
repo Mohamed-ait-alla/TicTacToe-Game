@@ -7,6 +7,67 @@
   height: 100vh;
 }
 
+.mode-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 2rem;
+  background: linear-gradient(135deg, #fdfbfb, #edebee);
+}
+
+.mode-welcome {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #222;
+  text-align: center;
+}
+
+.mode-chose-title {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #555;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.mode-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25 ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.mode-btn.friend {
+  background: #4caf50;
+  color: white;
+}
+
+.mode-btn.friend:hover {
+  background: #43a047;
+  transform: scale(1.06);
+}
+
+.mode-btn.computer {
+  background: #2196f3;
+  color: white;
+}
+
+.mode-btn.computer:hover {
+  background: #1991d2;
+  transform: scale(1.06);
+}
+
 .gameboard {
   display: flex;
   flex-wrap: wrap;
@@ -36,8 +97,7 @@
 }
 
 .cross.highlight, .circle.highlight {
-  animation: popUp 0.4s ease-in-out infinite alternate;
-  font-size: 85px;
+  animation: popUp 0.5s ease-in-out infinite alternate;
 }
 
 .cross, .circle {
@@ -45,22 +105,10 @@
   font-weight: bold;
 }
 
-.cross {
-  color: red;
-}
-
-.circle {
-  color: blue;
-}
-
 .boardinfo {
   font-weight: bold;
   font-size: 1.2rem;
   color: #333;
-}
-
-span {
-  color: #19c8fa;
 }
 
 .popup {
@@ -92,7 +140,7 @@ span {
 .popup button {
   margin-top: 15px;
   padding: 10px 20px;
-  background: #1d4ed8;
+  background: #22c55e;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -102,7 +150,7 @@ span {
 }
 
 .play-again-btn:hover {
-  background: #2563eb;
+  background: #16a34a;
 }
 
 @keyframes popupScale {
@@ -119,9 +167,11 @@ span {
 
 @keyframes popUp {
   from {
+    font-size: 0px;
     transform: scale(1);
   }
   to {
+    font-size: 70px;
     transform: scale(1.3);
   }
 }
