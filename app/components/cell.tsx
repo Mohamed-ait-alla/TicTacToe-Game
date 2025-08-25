@@ -3,24 +3,25 @@
 import { Dispatch, SetStateAction } from "react";
 
 type CellProps = {
-    id:number
-    go: string;
-    setGo: Dispatch<SetStateAction<string>>;
-    cells: string[];
-    setCells: Dispatch<SetStateAction<string[]>>;
-    cell: string;
-    isWin: string;
-    ishighlighted: boolean;
-}
+    id:number,
+    go: string,
+    setGo: Dispatch<SetStateAction<string>>,
+    cells: string[],
+    setCells: Dispatch<SetStateAction<string[]>>,
+    cell: string,
+    isWin: string,
+    ishighlighted: boolean,
+    mode: string
+};
 
-const Cell = ({id, go, setGo, cells, setCells, cell, isWin, ishighlighted}: CellProps) => {
+const Cell = ({id, go, setGo, cells, setCells, cell, isWin, ishighlighted, mode}: CellProps) => {
 
     const handleClick = () =>
     {
         const notTaken = !cells[id];
 
         // Block capturing events if a win or draw case occur
-        if (isWin)
+        if (isWin || (mode === "computer-mode" && go == "cross"))
             return ;
 
         // Setting up a circle or cross if a square is empty

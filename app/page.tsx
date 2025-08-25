@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Cell from "./components/cell";
+import { isIP } from "net";
 
 // Setup all winning possible cases
 const winningCases = [
@@ -136,6 +137,7 @@ export default function Home() {
                             cell={cell}
                             isWin={isWin}
                             ishighlighted={winCases.includes(index)}
+                            mode={mode}
                             key={index} />
                         ))}
                       </div>
