@@ -22,21 +22,24 @@ export default function Home() {
   const [winCases, setWinCases] = useState<number[]>([]);
   const [mode, setMode] = useState<string>("");
 
-  // Hook used for tracking player winning
+  // Hook used for tracking player winning cases
   useEffect(() => {
     winningCases.forEach((winCase) => {
       const crossWinsCase = winCase.every((cell) => cells[cell] == "cross");
       const circleWinsCase = winCase.every((cell) => cells[cell] == "circle");
       const drawCase = (cells.every((cell) => cell !== "") && !isWin);
 
+      // Cross Wins
       if (crossWinsCase) {
         setWinCases(winCase);
         setTimeout(() => setIsWin("cross"), 1200);
       }
+      // Cricle Wins
       else if (circleWinsCase) {
         setWinCases(winCase);
         setTimeout(() => setIsWin("circle"), 1200);
       }
+      // Draw case
       else if (drawCase) {
         setIsWin("draw");
         setWinCases([]);
@@ -44,6 +47,29 @@ export default function Home() {
     });
   }, cells);
 
+  // hook used for setting up computer's turn when computer-mode is chosed
+  useEffect(() => {
+    if (go === "cross" && mode === "computer-mode" && !isWin) {
+      const timer = setTimeout(() => {
+        // get empty indices and store as array
+        const emptyIndices = cells.map((val, idx) => (
+          val === "" ? idx : null
+        )).filter((val) => val !== null) as number[];
+        // Set up a random turn if there is an empty cell
+        if (emptyIndices.length > 0) {
+          const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+          const newCells = [...cells];
+          newCells[randomIndex] = "cross";
+          setCells(newCells);
+          
+          // Switch turn back to the user
+          setGo("circle");
+        }
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [go, cells, isWin, mode]);
 
   // pick a css class depending on winning case occured
   const resultClass = () => {
