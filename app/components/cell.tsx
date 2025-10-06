@@ -42,7 +42,7 @@ const Cell = ({id, go, setGo, cells, setCells, cell, isWin, ishighlighted, mode,
 
     const handleCellChange = (value: string) =>
     {
-        let copyCells = [...cells];
+        const copyCells = [...cells];
         copyCells[id] = value;
         setCells(copyCells);
     }

@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Cell from "./components/cell";
-import { isIP } from "net";
-import { userAgentFromString } from "next/server";
 
 // Setup all winning possible cases
 const winningCases = [
