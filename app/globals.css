@@ -1,10 +1,22 @@
+:root {
+  --background: #121219;
+  --foreground: #ededed;
+}
+
+body, html {
+  background: var(--background);
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #f4f4f4;
+  background: #121219; /* Dark background, matches body bg */
   height: 100vh;
+  color: var(--foreground); /* Ensure text uses the foreground variable */
+  padding: 1rem; /* Optional: some padding */
+  box-sizing: border-box;
 }
 
 .mode-container {
@@ -14,20 +26,20 @@
   align-items: center;
   height: 100vh;
   gap: 2rem;
-  background: linear-gradient(135deg, #fdfbfb, #edebee);
+  background: linear-gradient(135deg, #1e1e2f, #121219);
 }
 
 .mode-welcome {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #222;
+  color: #f1f1f1;
   text-align: center;
 }
 
 .mode-chose-title {
   font-size: 1.2rem;
   font-weight: 400;
-  color: #555;
+  color: #aaa;
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -44,27 +56,27 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.25 ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 .mode-btn.friend {
-  background: #4caf50;
-  color: white;
+  background: #2e7d32;
+  color: #f1f1f1;
 }
 
 .mode-btn.friend:hover {
-  background: #43a047;
+  background: #388e3c;
   transform: scale(1.06);
 }
 
 .mode-btn.computer {
-  background: #2196f3;
-  color: white;
+  background: #1565c0;
+  color: #f1f1f1;
 }
 
 .mode-btn.computer:hover {
-  background: #1991d2;
+  background: #1976d2;
   transform: scale(1.06);
 }
 
@@ -74,7 +86,11 @@
   margin: 20px;
   width: 300px;
   height: 300px;
-  border: 2px solid black;
+  border: 1px solid #449;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1a1a26;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
 .square {
@@ -83,17 +99,26 @@
   align-items: center;
   width: 100px;
   height: 100px;
-  border: 2px solid #333;
+  border: 1.5px solid #339;
   box-sizing: border-box;
-  transition: background 0.3s, transform 0.2s;
+  font-size: 2.5rem;
+  color: #f1f1f1;
+  background-color: #2a2a3b;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.square:hover {
+  background-color: #3b3b51;
+  transform: scale(1.02);
 }
 
 .circle {
-  color: #1d4ed8;
+  color: #42a5f5;
 }
 
 .cross {
-  color: #e63946;
+  color: #ef5350;
 }
 
 .cross.highlight, .circle.highlight {
@@ -107,34 +132,55 @@
 
 .boardinfo {
   font-weight: bold;
-  font-size: 1.2rem;
-  color: #333;
+  font-size: 1.5rem;
+  color: #aaa;
+  text-align: center;
+  margin-top: 1.5rem;
+  user-select: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.boardinfo > span {
+  display: inline-block;
+  font-size: 1.8rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.boardinfo > span.turn-cross {
+  color: #ef5350;
+}
+
+.boardinfo > span.turn-circle {
+  color: #42a5f5;
 }
 
 .popup {
-  background: #fff;
+  background: #1e1e2f;
   padding: 30px 40px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   animation: popupScale 0.4s ease forwards;
+  color: #f1f1f1;
 }
 
 .popup h2 {
   margin: 0 0 10px;
   font-size: 1.8rem;
+  color: inherit;
 }
 
 .cross-text {
-  color: #e63946;
+  color: #ef4444;
 }
 
 .circle-text {
-  color: #1d4ed8;
+  color: #3b82f6;
 }
 
 .draw-text {
-  color: #6b7280;
+  color: #9ca3af;
 }
 
 .popup button {
@@ -146,11 +192,13 @@
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);
 }
 
-.play-again-btn:hover {
+.popup button:hover {
   background: #16a34a;
+  transform: scale(1.05);
 }
 
 @keyframes popupScale {

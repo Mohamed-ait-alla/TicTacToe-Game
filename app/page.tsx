@@ -131,9 +131,9 @@ export default function Home() {
           if (isWin) {
             let resultText;
             if (isWin === "cross")
-              resultText = "❌ Cross Wins!";
+              resultText = (mode === "computer-mode") ? "🤖 Got you!" : "❌ Cross Wins!";
             else if (isWin === "circle")
-              resultText = "⭕️ Circle Wins!";
+              resultText = (mode === "computer-mode") ?  "👨 You Win!" : "⭕️ Circle Wins!";
             else if (isWin === "draw")
               resultText = "🤝 It's a Draw!";
 
@@ -167,7 +167,11 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="boardinfo">
-                        <span>{(go === "cross" ? "❌" : "⭕️")}</span> turn
+                  <span className={`turn-${go}`}>
+                    {mode === "computer-mode" 
+                      ? (go === "cross" ? "🤖" : "👨") 
+                      : (go === "cross" ? "X" : "O")}
+                  </span> turn
                 </div>
                 </>
             );
