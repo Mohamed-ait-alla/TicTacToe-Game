@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cell from "./components/cell";
 import { isIP } from "net";
+import { userAgentFromString } from "next/server";
 
 // Setup all winning possible cases
 const winningCases = [
@@ -22,36 +23,52 @@ export default function Home() {
   const [isWin, setIsWin] = useState("");
   const [winCases, setWinCases] = useState<number[]>([]);
   const [mode, setMode] = useState<string>("");
+  const isWinRef = useRef(isWin);
 
   // Hook used for tracking player winning cases
   useEffect(() => {
-    winningCases.forEach((winCase) => {
-      const crossWinsCase = winCase.every((cell) => cells[cell] == "cross");
-      const circleWinsCase = winCase.every((cell) => cells[cell] == "circle");
-      const drawCase = (cells.every((cell) => cell !== "") && !isWin);
+    let hasWinner = false;
 
-      // Cross Wins
+    for (const winCase of winningCases) {
+      const crossWinsCase = winCase.every((cell) => cells[cell] === "cross");
+      const circleWinsCase = winCase.every((cell) => cells[cell] === "circle");
+
       if (crossWinsCase) {
         setWinCases(winCase);
-        setTimeout(() => setIsWin("cross"), 1200);
+        setTimeout(() => setIsWin("cross"), 1000);
+        isWinRef.current = "cross";
+        hasWinner = true;
+        break;
       }
-      // Cricle Wins
-      else if (circleWinsCase) {
+
+      if (circleWinsCase) {
         setWinCases(winCase);
-        setTimeout(() => setIsWin("circle"), 1200);
+        setTimeout(() => setIsWin("circle"), 1000);
+        isWinRef.current = "circle";
+        hasWinner = true;
+        break;
       }
-      // Draw case
-      else if (drawCase) {
-        setIsWin("draw");
-        setWinCases([]);
-      }
-    });
-  }, cells);
+    }
+
+  // Only check for draw if no winner
+  if (!hasWinner && cells.every(cell => cell !== "")) {
+    setIsWin("draw");
+    setWinCases([]);
+  }
+}, [cells]);
+
+  // hook used for tracking real-time winning or draw cases
+  useEffect(() => {
+    isWinRef.current = isWin;
+  }, [isWin]);
 
   // hook used for setting up computer's turn when computer-mode is chosed
   useEffect(() => {
+    // something goes wrong with winning cases
     if (go === "cross" && mode === "computer-mode" && !isWin) {
       const timer = setTimeout(() => {
+        // check if any win or draw case occured stops setting up computer's turn
+        if (isWinRef.current) return;
         // get empty indices and store as array
         const emptyIndices = cells.map((val, idx) => (
           val === "" ? idx : null
@@ -80,7 +97,7 @@ export default function Home() {
       return ("circle-text");
     if (isWin === "draw")
       return ("draw-text");
-    return (undefined);
+    return ("");
   }
 
   // if Play again button pressed reset things
@@ -89,13 +106,16 @@ export default function Home() {
     setGo("circle");
     setIsWin("");
     setWinCases([]);
+    isWinRef.current = "";
   }
 
   return (
     <div className='container'>
       {
-        !mode ?
-          (
+       (() => {
+        // choosing mode
+        if (!mode) {
+          return (
             <div className="mode-container">
               <h1 className="mode-welcome">Welcome to Tic-Tac-Toe 🎮</h1>
               <p className="mode-chose-title">Chose Your Game Mode</p>
@@ -104,51 +124,56 @@ export default function Home() {
                 <button className="mode-btn computer" onClick={() => setMode("computer-mode")}>🤖 Play with Computer</button>
               </div>
             </div>
-          )
-          :
+          );
+        }
+        // game will be started from here
+        else {
+          if (isWin) {
+            let resultText;
+            if (isWin === "cross")
+              resultText = "❌ Cross Wins!";
+            else if (isWin === "circle")
+              resultText = "⭕️ Circle Wins!";
+            else if (isWin === "draw")
+              resultText = "🤝 It's a Draw!";
 
-          (
-            <>
-              {
-
-                isWin ?
-                  (
-                    <div className="popup">
-                      <h2 className={resultClass()}>
-                        {isWin === "cross" && "❌ Cross Wins!"}
-                        {isWin === "circle" && "⭕️ Circle Wins!"}
-                        {isWin === "draw" && "🤝 It's a Draw!"}
-                      </h2>
-                      <button className="play-again-btn" onClick={handlePlayAgain}>Play Again</button>
-                    </div>
-                  )
-                  :
-                  (
-                    <>
-                      <div className="gameboard">
-                        {cells.map((cell, index) => (
-                          // Rendering Cell component
-                          <Cell
-                            id={index}
-                            go={go}
-                            setGo={setGo}
-                            cells={cells}
-                            setCells={setCells}
-                            cell={cell}
-                            isWin={isWin}
-                            ishighlighted={winCases.includes(index)}
-                            mode={mode}
-                            key={index} />
-                        ))}
-                      </div>
-                      <div className="boardinfo">
+            return (
+              <>
+                <div className="popup">
+                  <h2 className={resultClass()}>{resultText}</h2>
+                  <button className="play-again-btn" onClick={handlePlayAgain}>Play Again</button>
+                </div>
+              </>
+            );
+          }
+          else {
+            return (
+              <>
+                <div className="gameboard">
+                  {cells.map((cell, index) => (
+                    <Cell
+                      id={index}
+                      go={go}
+                      setGo={setGo}
+                      cells={cells}
+                      setCells={setCells}
+                      cell={cell}
+                      isWin={isWin}
+                      ishighlighted={winCases.includes(index)}
+                      mode={mode}
+                      key={index}
+                      isWinRef={isWinRef.current}
+                    />
+                  ))}
+                </div>
+                <div className="boardinfo">
                         <span>{(go === "cross" ? "❌" : "⭕️")}</span> turn
-                      </div>
-                    </>
-                  )
-              }
-            </>
-          )
+                </div>
+                </>
+            );
+          }
+        }
+       })()
       }
     </div>
   );

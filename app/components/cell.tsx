@@ -11,17 +11,17 @@ type CellProps = {
     cell: string,
     isWin: string,
     ishighlighted: boolean,
-    mode: string
+    mode: string,
+    isWinRef: string
 };
 
-const Cell = ({id, go, setGo, cells, setCells, cell, isWin, ishighlighted, mode}: CellProps) => {
+const Cell = ({id, go, setGo, cells, setCells, cell, isWin, ishighlighted, mode, isWinRef}: CellProps) => {
 
     const handleClick = () =>
     {
         const notTaken = !cells[id];
-
         // Block capturing events if a win or draw case occur
-        if (isWin || (mode === "computer-mode" && go == "cross"))
+        if (isWin || isWinRef || (mode === "computer-mode" && go == "cross"))
             return ;
 
         // Setting up a circle or cross if a square is empty
