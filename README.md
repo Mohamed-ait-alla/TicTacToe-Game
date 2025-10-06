@@ -21,24 +21,11 @@ Play smoothly against a friend or challenge the computer in an elegant, fast, an
 
 ---
 
-## 📦 Installation
+## 🎮 Live Demo
 
-Clone the repository and install dependencies:
-
-```bash
-git clone https://github.com/Mohamed-ait-alla/TicTacToe-Game
-cd TicTacToe-Game
-npm install
-```
-Run the development server:
-```bash
-npm run dev
-```
-Then open `http://localhost:3000` in your browser.
-
-[live](https://mohamed-ait-alla.github.io/TicTacToe-Game/)
+Play it here 👉 **[Tic-Tac-Toe Live](https://mohamed-ait-alla.github.io/TicTacToe-Game/)**
 
 ---
 
-## Contributing
+## 🤝 Contributing
 Contributions are welcome! If you have suggestions or improvements, feel free to open an issue or submit a pull request.
